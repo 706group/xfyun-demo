@@ -347,6 +347,7 @@ def main():
     finally:
         stg_log(f"time offset: {str(time_offset)}")
 
+    size_batch = 1
     try:
         size_batch = float(args.batchsize) * size1m
     except ValueError as e:
@@ -355,6 +356,7 @@ def main():
     finally:
         stg_log(f"batch size: {str(size_batch)}")
 
+    # handle useless spaces
     filename_input = args.filename.split(' ')[-1]
 
     myxf = xfdemo(filename_input, size_batch, time_offset)
