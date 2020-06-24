@@ -9,7 +9,7 @@
 当然使用virtualenv安装requirement会更好
 
 ```
-me@host:~$ git clone https://github.com/Kumo-YZX/xfyun-demo.git
+me@host:~$ git clone https://github.com/706group/xfyun-demo.git
 me@host:~$ pip install -r requirements.txt
 ```
 
@@ -102,6 +102,9 @@ me@host:~$ python xfdemo.py -f example.m4a -b 10 -u y
 
 ## 开发指南
 
+感谢您的兴趣！我们期待您的参与。
+您可以fork本repo，提交您的代码，然后创建一个Pull Request来让我们将您的代码合并进去。
+
 ### 整体结构
 主要包括xfdemo的class主体、处理log和lrc时间戳的函数、处理argv参数的函数、引用自讯飞的slice id生成器class等。
 
@@ -115,5 +118,3 @@ xfdemo的class主体包括预加载config和keywords、预检查、检查输出�
 语言代码使用ISO 639-1的二字代码。
 
 以上。欢迎pr。
-
-tbd...
