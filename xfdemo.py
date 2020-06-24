@@ -4,7 +4,7 @@ import requests
 import os
 
 
-# xfyun only support 1M batch upload for non-verified users
+# xfyun only support small batch upload for non-verified users
 size1m = 1024*1024 
 
 base_url = "https://raasr.xfyun.cn/api"
@@ -146,7 +146,7 @@ class xfdemo(object):
             for slice_index in range(0, self.__slice_num):
                 current_slice_id = slice_id_getter.getNextSliceId()
                 stamp, sign = self.getTimeAndSign()
-                # read file in nMB
+                # read file in preset batch size
                 current_slice = fi.read(self.__batch_size)
                 if not current_slice or (len(current_slice) == 0):
                     stg_log(f"reqFileSlice file ends")
@@ -325,7 +325,7 @@ def loadArgs():
     parser.add_argument(
         '-b',
         '--batchsize',
-        default='0.9',
+        default='1',
         type=str,
         help="Batch size, in MB"
     )
