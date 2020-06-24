@@ -78,6 +78,7 @@ xfyun-demo
 - -u：可选，是否**使用**本地配置的关键词表。y：是，n：否。默认为否。
 - -s：可选，音频的**起始**位置偏移，单位为毫秒。只被用于在音频被拆分成多段处理时，确定其输出LRC文件时的起始时间。默认为0。
 - -l：可选，音频的处理**语言**。音频主要是什么语言构成就设置为此就行。语言代码以[ISO 639-1](https://www.loc.gov/standards/iso639-2/php/English_list.php)的二字代码为准，不区分大小写。目前支持中文（zh）/English(en)，默认为中文（zh）。~~其实也不会有别的语言了~~
+- -b: 可选，上传到云端的每份大小，由于讯飞会限制未实名认证用户的上传文件大小。默认0.9MB
 
 举例：
 ```
@@ -86,6 +87,7 @@ me@host:~$ python xfdemo.py -f example.m4a -l zh
 me@host:~$ python xfdemo.py -f /home/me/Audio/example.mp3
 me@host:~$ python xfdemo.py -f example.flac -u y
 me@host:~$ python xfdemo.py -f example.m4a -u y -s 100000 -l en
+me@host:~$ python xfdemo.py -f example.m4a -b 10 -u y
 ```
 
 ### 第六步：查看结果

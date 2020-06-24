@@ -1,8 +1,11 @@
 # xfyun-demo
 
 import requests
+import os
 
-size10m = 10*1024*1024
+
+# xfyun only support 1M batch upload for non-verified users
+size1m = 1024*1024 
 
 base_url = "https://raasr.xfyun.cn/api"
 prepare_url = "/prepare"
@@ -51,17 +54,20 @@ class SliceIdGenerator:
 
 class xfdemo(object):
 
-    def __init__(self, audio_file_name, time_offset=0):
+    def __init__(self, audio_file_name, size_batch, time_offset=0):
         from pathlib import PurePath
         self.__file_path = audio_file_name
         pathobj = PurePath(self.__file_path)
         self.__file_name = pathobj.parts[-1]
-        self.__file_size = 0
-        self.__slice_num = 1
+        self.__file_size = os.path.getsize(self.__file_path)
+        self.__batch_size = int(size_batch)
+        self.__slice_num = int(self.__file_size/(size_batch)) + 1
         self.__time_offset = time_offset
         self.__keywords = ""
         self.__language = ""
-        stg_log(f"xfdemo loaded with filename: {self.__file_name}")
+        stg_log(f"xfdemo loaded with file: {self.__file_path}")
+        stg_log(f"file_size: {str(self.__file_size)}, slice_num: {str(self.__slice_num)}")
+
 
     # load addid & secret key
     def loadConfig(self, configfile = "config.json"):
@@ -88,14 +94,6 @@ class xfdemo(object):
             self.__language = "cn"
         else:
             self.__language = language
-        return 0
-
-    # check the file and calculate slice amount
-    def preCheck(self):
-        import os
-        self.__file_size = os.path.getsize(self.__file_path)
-        self.__slice_num = int(self.__file_size/(size10m)) + 1
-        stg_log(f"preCheck done file_name: {self.__file_path}, file_size: {str(self.__file_size)}, slice_num: {str(self.__slice_num)}")
         return 0
 
     # Generate timestamp and sign 
@@ -148,8 +146,8 @@ class xfdemo(object):
             for slice_index in range(0, self.__slice_num):
                 current_slice_id = slice_id_getter.getNextSliceId()
                 stamp, sign = self.getTimeAndSign()
-                # read file in 10m
-                current_slice = fi.read(size10m)
+                # read file in nMB
+                current_slice = fi.read(self.__batch_size)
                 if not current_slice or (len(current_slice) == 0):
                     stg_log(f"reqFileSlice file ends")
                     break
@@ -323,6 +321,14 @@ def loadArgs():
         type=str,
         help="Time offset, in ms"
     )
+    # batch size for upload, in MB
+    parser.add_argument(
+        '-b',
+        '--batchsize',
+        default='0.9',
+        type=str,
+        help="Batch size, in MB"
+    )
     return parser
 
 def main():
@@ -341,9 +347,17 @@ def main():
     finally:
         stg_log(f"time offset: {str(time_offset)}")
 
+    try:
+        size_batch = float(args.batchsize) * size1m
+    except ValueError as e:
+        stg_log(f"batch size type error")
+        stg_log(f"{str(e)}")
+    finally:
+        stg_log(f"batch size: {str(size_batch)}")
+
     filename_input = args.filename.split(' ')[-1]
 
-    myxf = xfdemo(filename_input, time_offset)
+    myxf = xfdemo(filename_input, size_batch, time_offset)
     # myxf.checkTempdir("temp_audioclip")
     myxf.checkTempdir("export")
     myxf.loadConfig()
@@ -365,8 +379,6 @@ def main():
         # ! load keywords
         myxf.loadKeywords()
         stg_log(f"use keyword")
-
-    myxf.preCheck()
 
     myxf.reqPreTreat()
     myxf.reqFileSlice()

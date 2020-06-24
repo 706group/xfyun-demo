@@ -59,6 +59,7 @@ Args:
 - -u: optional, use keyword list or not, y:Yes, n:No, default: No
 - -s: optional, time offset in ms, starttime of this clip, used to correct lrc timetags. default: 0
 - -l: language of this audio. In [ISO 639-1](https://www.loc.gov/standards/iso639-2/php/English_list.php) language code. Chinese(zh) and English(en) have already been supported now. default: zh
+- -b: optional, upload batch size. xf will limit the upload batchsize to 1MB for non-verified user. default: 0.9MB
 
 like this:
 ```
@@ -67,6 +68,7 @@ me@host:~$ python xfdemo.py -f example.m4a -l zh
 me@host:~$ python xfdemo.py -f /home/me/Audio/example.mp3
 me@host:~$ python xfdemo.py -f example.flac -u y
 me@host:~$ python xfdemo.py -f example.m4a -u y -s 100000 -l en
+me@host:~$ python xfdemo.py -f example.m4a -b 10 -u y
 ```
 
 ### Step 6: Check for your results
