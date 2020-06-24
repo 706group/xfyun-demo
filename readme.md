@@ -1,6 +1,6 @@
 # xfyun audio to text api demo
 
-[cn version](https://github.com/Kumo-YZX/xfyun-demo/blob/master/readme-cn.md)
+[中文版本](https://github.com/706group/xfyun-demo/blob/master/readme-cn.md)
 
 ## How to use
 
@@ -9,7 +9,7 @@
 we recommand to use virtualenv
 
 ```
-me@host:~$ git clone https://github.com/Kumo-YZX/xfyun-demo.git
+me@host:~$ git clone https://github.com/706group/xfyun-demo.git
 me@host:~$ pip install -r requirements.txt
 ```
 ### Step 2: Prepare for config.json
@@ -81,6 +81,7 @@ export dir will be created under the main dir, containing files below:
 
 ## Develop guide
 
-### Structure
+Thank you for your interest! We are looking forward to your participation.
+Please fork this repo(https://github.com/706group/xfyun-demo) and create a Pull Request to it.
 
 tbd...
