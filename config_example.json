@@ -1,4 +1,7 @@
 {
     "appid": "00",
-    "secret_key": "00"
+    "secret_key": "00",
+
+    "ten_id": "00",
+    "ten_key": "00"
 }
