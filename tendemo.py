@@ -4,6 +4,8 @@
 # https://cloud.tencent.com/document/api/1093/35640
 # https://cloud.tencent.com/document/api/1093/35641
 
+# TBD: error handling & more explanation
+
 import json
 import time
 
@@ -380,18 +382,21 @@ def main():
     rsObj.prepareRequestheader()
     rsObj.prepareTimestamp()
 
-    rsObj.generateSign()
-    rsObj.expandHeader()
 
     # qu_res_text = ""
     while True:
         time.sleep(30)
+
+        # update signature, do not let them expired
+        rsObj.generateSign()
+        rsObj.expandHeader()
+
         qu_res = rsObj.uploadTask()
         qu_res_response = qu_res.get("Response")
         qu_res_data = qu_res_response.get("Data")
 
-        # or: =="success"
-        if qu_res_data.get("StatusStr") != "doing":
+        # must be =="success"
+        if qu_res_data.get("StatusStr") == "success":
             # qu_res_text = qu_res_data.get("Result")
             break
 
