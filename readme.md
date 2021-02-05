@@ -1,8 +1,10 @@
-# xfyun audio to text api demo
+# 706Talk toolkit - Audio2Text
 
 [中文版本](https://github.com/706group/xfyun-demo/blob/master/readme-cn.md)
 
 ## How to use
+
+Required: Python version >= 3.6 !
 
 ### Step 1: Download the code and install requirements
 
